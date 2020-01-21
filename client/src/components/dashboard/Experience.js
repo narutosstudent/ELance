@@ -20,7 +20,7 @@ const Experience = ({ experience, deleteExperience }) => {
       <td>
         <button
           onClick={() => deleteExperience(exp._id)}
-          className="btn btn-danger"
+          className="btn btn-danger float-right text-dark"
         >
           Delete
         </button>
@@ -30,8 +30,9 @@ const Experience = ({ experience, deleteExperience }) => {
 
   return (
     <Fragment>
-      <h2 className="my-2">Experience Credentials</h2>
-      <table className="table">
+      <h2 className="my-4 text-center text-info">Experience Credentials</h2>
+      <div className="container">
+            <table className="table">
         <thead>
           <tr>
             <th>Company</th>
@@ -42,6 +43,7 @@ const Experience = ({ experience, deleteExperience }) => {
         </thead>
         <tbody>{experiences}</tbody>
       </table>
+      </div>
     </Fragment>
   );
 };

@@ -11,12 +11,12 @@ const initialState = {
 const commentReducer = (state = initialState, action) => {
     const {payload, type} = action;
     switch (type) {
-        case CommentActionTypes.GET_COMMENTS:
-            return {
-                ...state,
-                comments: payload,
-                loading: false
-            }
+            case CommentActionTypes.GET_SINGLE_POST_COMMENTS:
+                return {
+                    ...state,
+                    comments: payload,
+                    loading: false
+                }
             case CommentActionTypes.ADD_COMMENT:
                 return {
                     ...state,

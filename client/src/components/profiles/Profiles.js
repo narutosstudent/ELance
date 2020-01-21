@@ -29,9 +29,13 @@ const Profiles = ({
                                         <i className='fab fa-connectdevelop'/>
                                         Browse and connect with Freelancers
                                     </p>
-                                    <div className='col-md-6 col-sm-6'>
+                                    <div className='col-md-8 col-sm-9'>
                                         {profiles.length > 0
-                                            ? (profiles.map(profile => (<ProfileItem key={profile._id} profile={profile}/>)))
+                                            ? (profiles.map(profile => (
+                                                
+                                                <ProfileItem key={profile._id} profile={profile}/>
+                                                
+                                                )))
                                             : (
                                                 <h4>No profiles found...</h4>
                                             )}

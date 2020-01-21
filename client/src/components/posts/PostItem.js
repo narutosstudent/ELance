@@ -4,28 +4,22 @@ import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { likePost, dislikePost, deletePost } from '../../redux/post/post.actions';
 import defaultUserImage from "../../assets/default-user-icon.jpg";
-import {getComments} from "../../redux/comment/comment.actions"
 
 const PostItem = ({
   dislikePost,
-  getComments,
   likePost,
   deletePost,
   auth,
   post: { _id, text, name, user, likes, dislikes, date },
-  comment: {comments},
   showActions
 }) => {
-  useEffect(() => {
-    getComments(_id);
-  }, [getComments])
 return (
   <div class="shadow p-3 mb-5 bg-primary rounded">
   <div className='card mb-3 text-dark bg-warning'>
     <div className="row no gutters align-items-center">
     <div className="col-sm-3">
       <Link to={`/profile/${user._id}`}>
-        <img className='card-img' src={user.avatar ? user.avatar : defaultUserImage} alt='avatar' />
+        <img className='card-img rounded-circle pl-2' src={user.avatar ? user.avatar : defaultUserImage} alt='avatar' />
       </Link>
       </div>
       <div className="col-sm-9">
@@ -40,7 +34,7 @@ return (
             type='button'
             className='btn btn-primary'
           >
-            <i className='fas fa-thumbs-up' />{' '}
+            <i className='fas fa-thumbs-up p-1' />{' '}
             <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
           </button>
           <button
@@ -48,14 +42,11 @@ return (
             type='button'
             className='btn btn-danger ml-3'
           >
-            <i className='fas fa-thumbs-down' />
+            <i className='fas fa-thumbs-down p-1' />
             <span>{dislikes.length > 0 && <span>{dislikes.length} </span> } </span>
           </button>
           <Link to={`/posts/${_id}`} className='btn btn-primary ml-3'>
-            Discussion{' '}
-            {comments.length > 0 && (
-              <span>{comments.length}</span>
-            )}
+            Discussion
           </Link>
           {!auth.loading && user._id === auth.user._id && (
             <button
@@ -84,10 +75,9 @@ PostItem.defaultProps = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  comment: state.comment
 });
 
 export default connect(
   mapStateToProps,
-  { likePost, dislikePost, deletePost, getComments }
+  { likePost, dislikePost, deletePost, }
 )(PostItem);

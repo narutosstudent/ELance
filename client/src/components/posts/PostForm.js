@@ -20,18 +20,18 @@ const PostForm = ({addPost}) => {
             }}>
 
                 <div className="container">
-                    <div className="row ">
+                    <div className="row align-items-center">
                         <div className="col-sm-8">
                             <textarea
                                 name='text'
-                                className="form-control"
+                                className="form-control bg-info"
                                 placeholder='Create a post'
                                 value={text}
                                 onChange={e => setText(e.target.value)}
                                 required/>
                         </div>
-                        <div className="col-sm-4 align-items-center">
-                            <input type='submit' className='btn btn-dark mb-5 ml-2' value='Submit'/>
+                        <div className="col-sm-4 ">
+                            <input type='submit' className='btn btn-warning ml-2' value='Submit'/>
 
                         </div>
                     </div>

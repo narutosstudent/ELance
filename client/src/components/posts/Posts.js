@@ -8,7 +8,7 @@ import { getPosts } from '../../redux/post/post.actions';
 const Posts = ({ getPosts, post: { posts, loading } }) => {
   useEffect(() => {
     getPosts();
-  }, [getPosts]);
+  }, [getPosts, posts]);
 
   return loading ? (
     <Spinner />
@@ -18,7 +18,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
     <div className="row">
     <div className="col text-center">
           <h1 className='text-primary'>Posts</h1>
-      <p className='lead'>
+      <p className='lead text-danger'>
         <i className='fas fa-user' /> Welcome to the community
       </p>
       <PostForm />

@@ -17,18 +17,14 @@ const ProfileItem = ({
 }) => {
     return (
         <Fragment>
-            <div
-                class="card mb-3 bg-warning"
-                style={{
-                maxWidth: "540px"
-            }}>
+            <div class="card mb-3 bg-warning">
                 <div class="row no-gutters align-items-center">
                     <div class="col-md-4">
                         <img
                             src={avatar
                             ? avatar
                             : defaultUserImage}
-                            className="card-img"
+                            className="card-img rounded-circle pl-2"
                             alt="user"/>
                     </div>
                     <div class="col-md-8">
@@ -39,12 +35,7 @@ const ProfileItem = ({
                             <p>
                                 {location && <span className="text-dark">{location}</span>}
                             </p>
-                            <div className="text-center">
-                                <Link to={`/profile/${_id}`} className='text-center btn btn-dark'>
-                                    View Profile
-                                </Link>
-                            </div>
-                            <ul className="list-unstyled d-flex flex-row">
+                            <ul className="list-unstyled d-flex flex-row justify-content-center">
                                 {skills
                                     .slice(0, 4)
                                     .map((skill, index) => (
@@ -53,7 +44,11 @@ const ProfileItem = ({
                                         </li>
                                     ))}
                             </ul>
-
+                            <div className="text-center">
+                                <Link to={`/profile/${_id}`} className='text-center btn btn-dark'>
+                                    View Profile
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -68,14 +68,7 @@ router.get('/', auth, async (req, res) => {
 // @access   Private
 router.get('/:id', auth, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).populate("user").populate("comments")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "user",
-        model: "User"
-      }
-    })
+    const post = await Post.findById(req.params.id).populate("user");
 
     // Check for ObjectId format and post
     if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
@@ -107,7 +100,8 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
-    await Comment.findOneAndRemove({post: post._id})
+    const comments = await Comment.find({post: post._id})
+    await comments.remove();
     await post.remove();
     res.json({ msg: 'Post removed' });
   } catch (err) {
@@ -225,15 +219,15 @@ router.post(
 );
 
 
-// @route    DELETE api/posts/comment/:id/:comment_id
+// @route    DELETE api/posts/comment/:commentId 
 // @desc     Delete comment
 // @access   Private
-router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
+router.delete("/comment/:commentId", auth, async (req, res) => {
   try {
-    const comment = await Comment.findById(req.params.comment_id);
+    const comment = await Comment.findById(req.params.commentId);
 
     if (!comment) {
-      return res.status(404).json({ msg: "Post do not have this comment" });
+      return res.status(404).json({ msg: "Comment do not exist" });
     }
 
     if (comment.user.toString() !== req.user.id) {
@@ -242,9 +236,7 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
 
     await comment.remove();
 
-    // resend the comments that belongs to that post
-    const postComments = await Comment.find({ post: req.params.id });
-    res.json(postComments);
+    res.json({msg: "Comment Removed"})
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

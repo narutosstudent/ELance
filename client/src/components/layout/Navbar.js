@@ -45,7 +45,7 @@ const Navbar = ({auth: {isAuthenticated, loading}, logout}) => {
     return (
         <nav className="navbar navbar-expand-md navbar-light bg-dark mb-3">
         <div className="container">
-            <Link className="navbar-brand" to="/">ELance</Link>
+            <Link className="navbar-brand" to={isAuthenticated ? "/dashboard" : "/"}>ELance</Link>
             <button className="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
                 <span className="navbar-toggler-icon"></span>
             </button>

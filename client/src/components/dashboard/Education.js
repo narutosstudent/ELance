@@ -20,7 +20,7 @@ const Education = ({ education, deleteEducation }) => {
       <td>
         <button
           onClick={() => deleteEducation(edu._id)}
-          className="btn btn-danger"
+          className="btn btn-danger float-right text-dark"
         >
           Delete
         </button>
@@ -30,8 +30,9 @@ const Education = ({ education, deleteEducation }) => {
 
   return (
     <Fragment>
-      <h2 className="my-2">Education Credentials</h2>
-      <table className="table">
+      <h2 className="my-4 text-center text-warning">Education Credentials</h2>
+      <div className="container">
+            <table className="table">
         <thead>
           <tr>
             <th>School</th>
@@ -42,6 +43,8 @@ const Education = ({ education, deleteEducation }) => {
         </thead>
         <tbody>{educations}</tbody>
       </table>
+      </div>
+
     </Fragment>
   );
 };

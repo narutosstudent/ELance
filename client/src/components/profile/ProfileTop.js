@@ -19,7 +19,7 @@ const ProfileTop = ({
             <div className="row">
                 <div className="col text-center">
                     <div className='bg-warning p-2'>
-                        <img className='rounded my-1' src={avatar ? avatar : defaultUserImage} alt=''/>
+                        <img className='rounded-circle my-1' src={avatar ? avatar : defaultUserImage} alt=''/>
                         <h1 className='large'>{name}</h1>
                         <p className='lead'>
                             {status}
