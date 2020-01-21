@@ -167,6 +167,22 @@ router.put('/dislike/:id', auth, async (req, res) => {
 });
 
 
+// @route    GET api/posts/comments/:id
+// @desc     Get all comments that belongs to a post
+// @access   Private
+router.get('/comments/:id', auth, async (req, res) => {
+  try {
+    const comments = await Comment.find({post: req.params.id}).sort({date: -1}).populate("user");
+
+    res.json(comments);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
 // @route    POST api/posts/comment/:id
 // @desc     Comment on a post
 // @access   Private

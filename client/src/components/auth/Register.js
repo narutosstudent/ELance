@@ -90,7 +90,7 @@ const Register = ({setAlert, register, isAuthenticated}) => {
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.user.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated
   });
 
 

@@ -71,7 +71,7 @@ const CreateProfile = ({
                                 Let's get some information to make your profile stand out
                             </p>
                             <small>* = required field</small>
-                            <form className='form' onSubmit={e => onSubmit(e)}>
+                            <form onSubmit={e => onSubmit(e)}>
                                 <div className='form-group'>
                                     <select
                                         name='status'
@@ -80,7 +80,7 @@ const CreateProfile = ({
                                         onChange={e => onChange(e)}>
                                         <option value='0'>* Select Professional Status</option>
                                         <option value='Developer'>Developer</option>
-                                        <option value='Web Developer'>App Developer</option>
+                                        <option value='Web Developer'>Web Developer</option>
                                         <option value='App Developer'>App Developer</option>
                                         <option value='Database Engineer'>Database Engineer</option>
                                         <option value='Video Editer'>Video Editer</option>
@@ -220,7 +220,7 @@ const CreateProfile = ({
                                     </Fragment>
                                 )}
 
-                                <input type='submit' className='btn btn-primary my-1'/>
+                                <input type='submit' className='btn mr-3 btn-primary my-1'/>
                                 <Link className='btn btn-light my-1' to='/dashboard'>
                                     Go Back
                                 </Link>

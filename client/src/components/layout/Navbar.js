@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {logout} from "../../redux/user/user.actions"
 
-const Navbar = ({user: {isAuthenticated, loading}, logout}) => {
+const Navbar = ({auth: {isAuthenticated, loading}, logout}) => {
 
     const authLinks = (
         <ul className="navbar-nav ml-auto">
@@ -60,7 +60,7 @@ const Navbar = ({user: {isAuthenticated, loading}, logout}) => {
 }
 
 const mapStateToProps = state => ({
-    user: state.user
+    auth: state.auth
 })
 
 export default connect(mapStateToProps, {logout})(Navbar);

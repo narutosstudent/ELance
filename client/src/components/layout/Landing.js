@@ -31,7 +31,7 @@ const Landing = ({isAuthenticated}) => {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.user.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps)(Landing);

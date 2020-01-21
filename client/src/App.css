@@ -1,5 +1,5 @@
 body {
-    background-color: rgba(47, 45, 45, 0.548);
+    background-color: rgba(47, 45, 45, 0.767);
 }
 
 #showcase {
@@ -9,7 +9,7 @@ body {
 }
     
 #showcase .overlay {
-      background: rgba(7, 14, 15, 0.609);
+      background: rgba(7, 14, 15, 0.726);
       top: 0;
       left: 0;
       width: 100%;
