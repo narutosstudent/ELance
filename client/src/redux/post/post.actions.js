@@ -107,6 +107,35 @@ export const dislikePost = id => async dispatch => {
     }
   };
 
+  // update post
+  export const updatePost = (text, id) => async dispatch => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const body = JSON.stringify({text})
+
+    try {
+      const res = await axios.put(`/api/posts/${id}`, body, config)
+
+      dispatch({
+        type: PostActionTypes.UPDATE_POST,
+        payload: {text, id}
+      })
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      }
+    dispatch({
+      type: PostActionTypes.POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+    }
+  }
+
 // Delete post
 export const deletePost = id => async dispatch => {
     try {

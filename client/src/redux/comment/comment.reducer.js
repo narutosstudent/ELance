@@ -23,6 +23,12 @@ const commentReducer = (state = initialState, action) => {
                     comments: [payload, ...state.comments],
                     loading: false
                 }
+                case CommentActionTypes.UPDATE_COMMENT:
+                    return {
+                        ...state,
+                        comments: state.comments.map(comment => comment._id === payload.id ? {...comment, text: payload.text} : comment),
+                        loading: false
+                    }
             case CommentActionTypes.DELETE_COMMENT:
                 return {
                     ...state,

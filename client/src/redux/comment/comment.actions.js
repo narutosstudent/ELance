@@ -32,7 +32,6 @@ export const getSinglePostComments = id => async dispatch => {
 
     try {
         const res = await axios.post(`/api/posts/comment/${postId}`, formData, config);
-    
         dispatch({
           type: CommentActionTypes.ADD_COMMENT,
           payload: res.data
@@ -40,15 +39,44 @@ export const getSinglePostComments = id => async dispatch => {
       } catch (err) {
         dispatch({
           type: CommentActionTypes.COMMENT_ERROR,
-          payload: { msg: err.response.statusText, status: err.response.status }
+          payload: { msg: err.message, status: err.response.status }
         });
       }
   }
 
+  // Update Comment
+    export const updateComment = (text, id) => async dispatch => {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+  
+      const body = JSON.stringify({text})
+  
+      try {
+        const res = await axios.put(`/api/posts/comments/${id}`, body, config)
+  
+        dispatch({
+          type: CommentActionTypes.UPDATE_COMMENT,
+          payload: {text, id}
+        })
+      } catch (err) {
+        const errors = err.response.data.errors;
+        if (errors) {
+          errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        }
+      dispatch({
+        type: CommentActionTypes.COMMENT_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+      }
+    }
+
  // Delete comment
 export const deleteComment = (commentId) => async dispatch => {
   try {
-    await axios.delete(`api/posts/comment/${commentId}`);
+    await axios.delete(`/api/posts/comment/${commentId}`);
 
     dispatch({
       type: CommentActionTypes.DELETE_COMMENT,

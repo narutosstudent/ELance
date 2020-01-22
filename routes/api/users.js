@@ -82,7 +82,7 @@ router.post(
 // @access   Private
 router.post("/avatar/upload", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    let user = await User.findById(req.user.id);
 
     if (!user) {
       return res.status(404).json({msg: "User was not found"})
@@ -102,15 +102,17 @@ router.post("/avatar/upload", auth, async (req, res) => {
     // Create custom filename
     file.name = `avatar_${user._id}${path.parse(file.name).ext}`;
 
-    file.mv(`${__dirname}/client/public/uploads/${file.name}`, async err => {
+    file.mv(config.get("fileUploadPath")`/${file.name}`, async err => {
       if (err) {
         console.error(err);
         return res.status(500).send("Problem with file upload");
       }
 
-      await User.findByIdAndUpdate(req.user.id, {avatar: file.name});
+     user = await User.findByIdAndUpdate(req.user.id, {avatar: file.name});
 
-      res.status(200).json({fileName: file.name, filePath: `/uploads/${file.name}`});
+     await user.save();
+
+    res.status(200).json(user);
     })
   } catch (err) {
     console.error(err.message);

@@ -45,6 +45,46 @@ router.post(
   }
 );
 
+// @route    PUT api/posts/:id
+// @desc     Update a post
+// @access   Private
+router.put(
+  '/:id',
+  [
+    auth,
+    [
+      check('text', 'Text is required')
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      let post = await Post.findById(req.params.id)
+      console.log(post);
+      if (!post) {
+        return res.status(404).json({msg: "Post not found"})
+      }
+
+      if (post.user.toString() !== req.user.id) {
+        return res.status(401).json({msg: "You are not authorized"});
+      }
+
+      post = await Post.findOneAndUpdate(req.params.id, req.body);
+      console.log(post);
+      await post.save();
+      res.status(200).json(post)
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 
 // @route    GET api/posts
@@ -100,8 +140,7 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
-    const comments = await Comment.find({post: post._id})
-    await comments.remove();
+    await Comment.deleteMany({post: post._id})
     await post.remove();
     res.json({ msg: 'Post removed' });
   } catch (err) {
@@ -166,7 +205,7 @@ router.put('/dislike/:id', auth, async (req, res) => {
 // @access   Private
 router.get('/comments/:id', auth, async (req, res) => {
   try {
-    const comments = await Comment.find({post: req.params.id}).sort({date: -1}).populate("user");
+    const comments = await Comment.find({post: req.params.id}).sort({date: -1}).populate("user").select("-password");
 
     res.json(comments);
   } catch (err) {
@@ -214,6 +253,46 @@ router.post(
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
+    }
+  }
+);
+
+// @route    PUT api/posts/comments/:id
+// @desc     Update a comment
+// @access   Private
+router.put(
+  '/comments/:id',
+  [
+    auth,
+    [
+      check('text', 'Text is required')
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      let comment = await Comment.findById(req.params.id);
+
+      if (!comment) {
+        return res.status(404).json({msg: "Post not found"})
+      }
+
+      if (comment.user.toString() !== req.user.id) {
+        return res.status(401).json({msg: "You are not authorized"});
+      }
+
+      comment = await Comment.findOneAndUpdate(req.params.id, req.body);
+      await comment.save();
+      res.status(200).json(comment);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
     }
   }
 );

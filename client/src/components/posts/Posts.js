@@ -8,7 +8,7 @@ import { getPosts } from '../../redux/post/post.actions';
 const Posts = ({ getPosts, post: { posts, loading } }) => {
   useEffect(() => {
     getPosts();
-  }, [getPosts, posts]);
+  }, [posts, getPosts]);
 
   return loading ? (
     <Spinner />

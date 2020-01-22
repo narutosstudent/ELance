@@ -28,6 +28,12 @@ const postReducer = (state = initialState, action) => {
               posts: [payload, ...state.posts],
               loading: false
             };
+            case PostActionTypes.UPDATE_POST:
+              return {
+                ...state,
+                posts: state.posts.map(post => post._id === payload.id ? {...post, text: payload.text} : post),
+                loading: false
+              }
           case PostActionTypes.DELETE_POST:
             return {
               ...state,
