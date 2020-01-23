@@ -56,6 +56,40 @@ export const register = ({ name, email, password }) => async dispatch => {
     }
   };
 
+  export const updateUserImage = (image) => async dispatch => {
+    const formData = new FormData();
+    formData.append("image", image)
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
+
+    try {
+      const res = await axios.post("/api/users/avatar", formData, config);
+
+
+      dispatch({
+        type: UserActionTypes.USER_IMAGE_UPDATED,
+        payload: res.data
+      });
+
+      dispatch(loadUser());
+    } catch (err) {
+      const errors = err.response.data.errors;
+  
+      if (errors) {
+        errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      }
+  
+      dispatch({
+        type: UserActionTypes.USER_ERROR
+      });
+    }
+
+
+  }
+
 
   // Login User
 export const login = (email, password) => async dispatch => {

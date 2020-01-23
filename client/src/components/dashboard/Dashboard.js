@@ -1,4 +1,4 @@
-import React, {useEffect, Fragment} from 'react';
+import React, {useEffect, Fragment, useState} from 'react';
 import {connect} from "react-redux";
 import {getCurrentProfile, deleteAccount} from "../../redux/profile/profile.actions";
 import {Link} from "react-router-dom"
@@ -6,10 +6,13 @@ import Spinner from "../layout/Spinner";
 import DashboardActions from "./DashboardActions"
 import Experience from './Experience';
 import Education from './Education';
+import defaultUserImage from "../../assets/default-user-icon.jpg";
+import {updateUserImage} from "../../redux/user/user.actions";
 
 const Dashboard = ({
     deleteAccount,
     getCurrentProfile,
+    updateUserImage,
     auth: {
         user
     },
@@ -20,7 +23,20 @@ const Dashboard = ({
 }) => {
     useEffect(() => {
         getCurrentProfile();
-    }, [getCurrentProfile])
+    }, [getCurrentProfile]);
+
+    const [file, setFile] = useState('');
+    const [imageFile, setImageFile] = useState(false);
+
+    const onChange = e => {
+        setFile(e.target.files[0]);
+        setImageFile(!imageFile);
+      };
+
+      const onSubmit = e => {
+          e.preventDefault();
+          updateUserImage(file);
+      }
 
     return loading && profile === null
         ? <Spinner/>
@@ -33,6 +49,24 @@ const Dashboard = ({
                             <i className="fas fa-user"/>
                             Welcome {user && user.name}
                         </p>
+                        <div className="col sm-5">
+                                                <img src={user.avatar ? user.avatar : defaultUserImage} alt="avatar" className="border border-success rounded-circle m-2" />
+                        </div>
+                        <form onSubmit={onSubmit}>
+                        <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Image</span>
+                        </div>
+                        <div class="custom-file">
+                          <input type="file" onChange={e => onChange(e)} class="custom-file-input bg-info" />
+                          <label class="custom-file-label">Upload Image</label>
+                        </div>
+                      </div>
+                      {imageFile && (
+                                               <input type="submit" value="Submit Upload" className="btn btn-info btn-block m-2" /> 
+                      )}
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -80,4 +114,4 @@ const Dashboard = ({
 
 const mapStateToProps = state => ({auth: state.auth, profile: state.profile})
 
-export default connect(mapStateToProps, {getCurrentProfile, deleteAccount})(Dashboard);
+export default connect(mapStateToProps, {getCurrentProfile, deleteAccount, updateUserImage})(Dashboard);

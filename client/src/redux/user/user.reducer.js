@@ -13,6 +13,7 @@ const userReducer = (state = initialState, action) => {
     const {type, payload} = action;
     switch (type) {
         case UserActionTypes.USER_LOADED:
+          case UserActionTypes.USER_IMAGE_UPDATED:
           return {
             ...state,
             isAuthenticated: true,
@@ -33,6 +34,7 @@ const userReducer = (state = initialState, action) => {
         case UserActionTypes.LOGIN_FAIL:
         case UserActionTypes.LOGOUT:
         case UserActionTypes.ACCOUNT_DELETED:
+          case UserActionTypes.USER_ERROR:
           localStorage.removeItem('token');
           return {
             ...state,

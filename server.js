@@ -1,31 +1,57 @@
 const express = require('express');
 const connectDB = require('./config/db');
-const fileUpload = require("express-fileupload");
+const uuidv4 = require("uuid/v4")
 const colors = require("colors");
 const morgan = require("morgan");
+const multer = require("multer");
+const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 9065;
+
 // Connect Database
 connectDB();
+
+// Configuring Multer storage
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, uuidv4() + "_" + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 
 // Init Middleware
 app.use(express.json({ extended: false }));
 
-
-
-// Define Routes
-app.use('/api/users', require('./routes/api/users'));
-app.use('/api/auth', require('./routes/api/auth'));
-app.use('/api/profile', require('./routes/api/profile'));
-app.use('/api/posts', require('./routes/api/posts'));
+// Use Multer
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
+);
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-// File Upload For User Avatar
-app.use(fileUpload());
+// Define Routes
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/profile', require('./routes/api/profile'));
+app.use('/api/posts', require('./routes/api/posts'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

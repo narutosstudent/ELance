@@ -80,7 +80,7 @@ router.post(
 // @route    POST api/users/avatar
 // @desc     Update Users Avatar
 // @access   Private
-router.post("/avatar/upload", auth, async (req, res) => {
+router.post("/avatar", auth, async (req, res) => {
   try {
     let user = await User.findById(req.user.id);
 
@@ -88,32 +88,15 @@ router.post("/avatar/upload", auth, async (req, res) => {
       return res.status(404).json({msg: "User was not found"})
     }
 
-    if (!req.files) {
-      return res.status(400).json({msg: "No file uploaded"});
+    if (!req.file) {
+      return res.status(400).json({msg: "Please upload a file"});
     }
 
-    const file = req.files.file;
-
-    // Make sure the image is a photo
-    if (!file.mimetype.startsWith("image")) {
-      return res.status(400).json({msg: "Please upload an image file"})
-    }
-
-    // Create custom filename
-    file.name = `avatar_${user._id}${path.parse(file.name).ext}`;
-
-    file.mv(config.get("fileUploadPath")`/${file.name}`, async err => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send("Problem with file upload");
-      }
-
-     user = await User.findByIdAndUpdate(req.user.id, {avatar: file.name});
-
+    const imageUrl = req.file.path.replace("\\" ,"/");;
+    
+     user = await User.findByIdAndUpdate(req.user.id, {avatar: imageUrl});
      await user.save();
-
     res.status(200).json(user);
-    })
   } catch (err) {
     console.error(err.message);
     return res.status(500).json({msg: "Server error"});
