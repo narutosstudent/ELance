@@ -1,7 +1,2 @@
-.DS_Store
 node_modules/
-config/default.json
 config/production.json
-*.orig
-.idea/
-.vscode/
