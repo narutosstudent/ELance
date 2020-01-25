@@ -4,13 +4,13 @@ import {PostActionTypes} from "./post.types";
 
 
 // Get posts
-export const getPosts = () => async dispatch => {
+export const getPosts = (page) => async dispatch => {
     try {
-      const res = await axios.get('/api/posts');
+      const res = await axios.get(`/api/posts?page=${page}`);
   
       dispatch({
         type: PostActionTypes.GET_POSTS,
-        payload: res.data
+        payload: {posts: res.data.posts, totalItems: res.data.totalItems}
       });
     } catch (err) {
       dispatch({

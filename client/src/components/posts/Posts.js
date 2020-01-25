@@ -1,14 +1,21 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
+import Pagination from "./Pagination";
 import PostItem from './PostItem';
 import PostForm from './PostForm';
 import { getPosts } from '../../redux/post/post.actions';
 
-const Posts = ({ getPosts, post: { posts, loading } }) => {
+const Posts = ({ getPosts, post: { posts, loading, totalPosts} }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(3);
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
+
   useEffect(() => {
-    getPosts();
-  }, [posts, getPosts]);
+    getPosts(currentPage);
+  }, [posts, currentPage]);
+
 
   return loading ? (
     <Spinner />
@@ -33,6 +40,9 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
                     <PostItem key={post._id} post={post} />
           </div>
         ))}
+        <div className="col text-center">
+                <Pagination postsPerPage={postsPerPage} totalPosts={totalPosts} paginate={paginate} />
+        </div>
       </div>
       </div>
 

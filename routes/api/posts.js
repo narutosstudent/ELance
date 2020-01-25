@@ -92,15 +92,20 @@ router.put(
 // @access   Private
 router.get('/', auth, async (req, res) => {
   try {
-    const posts = await Post.find().sort({ date: -1 }).populate({
-      path: "user",
-      options: {
-        limit: parseInt(req.query.limit),
-        skip: parseInt(req.query.skip)
-      }
-    }).exec()
-
-    res.json(posts);
+    const currentPage = req.query.page || 1;
+    const perPage = 3;
+    let totalItems;
+    const totalPostItems = await Post.find().countDocuments();
+    totalItems = totalPostItems;
+    const posts = await Post.find().sort({ date: -1 })
+    .populate("user")
+    .skip((currentPage - 1) * perPage)
+    .limit(perPage)
+    res.status(200).json({
+      msg: "Fetched posts successfully", 
+      posts: posts, 
+      totalItems: totalItems
+  });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

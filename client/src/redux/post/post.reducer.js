@@ -2,6 +2,7 @@ import {PostActionTypes} from "./post.types";
 
 const initialState = {
     posts: [],
+    totalPosts: null,
     post: null,
     loading: true,
     error: {}
@@ -13,7 +14,8 @@ const postReducer = (state = initialState, action) => {
         case PostActionTypes.GET_POSTS:
             return {
               ...state,
-              posts: payload,
+              posts: payload.posts,
+              totalPosts: payload.totalItems,
               loading: false
             };
           case PostActionTypes.GET_POST:
