@@ -75,7 +75,7 @@ router.put(
         return res.status(401).json({msg: "You are not authorized"});
       }
 
-      post = await Post.findOneAndUpdate(req.params.id, req.body);
+      post = await Post.findByIdAndUpdate(req.params.id, req.body);
       console.log(post);
       await post.save();
       res.status(200).json(post);
@@ -298,7 +298,7 @@ router.put(
         return res.status(401).json({msg: "You are not authorized"});
       }
 
-      comment = await Comment.findOneAndUpdate(req.params.id, req.body);
+      comment = await Comment.findByIdAndUpdate(req.params.id, req.body);
       await comment.save();
       res.status(200).json(comment);
     } catch (err) {
