@@ -78,7 +78,7 @@ router.put(
       post = await Post.findOneAndUpdate(req.params.id, req.body);
       console.log(post);
       await post.save();
-      res.status(200).json(post)
+      res.status(200).json(post);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -92,7 +92,13 @@ router.put(
 // @access   Private
 router.get('/', auth, async (req, res) => {
   try {
-    const posts = await Post.find().sort({ date: -1 }).populate("user")
+    const posts = await Post.find().sort({ date: -1 }).populate({
+      path: "user",
+      options: {
+        limit: parseInt(req.query.limit),
+        skip: parseInt(req.query.skip)
+      }
+    }).exec()
 
     res.json(posts);
   } catch (err) {

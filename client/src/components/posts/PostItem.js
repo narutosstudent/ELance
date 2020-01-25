@@ -26,7 +26,7 @@ return (
     <div className="row no gutters align-items-center">
     <div className="col-sm-3">
       <Link to={`/profile/${user._id}`}>
-        <img className='card-img rounded-circle pl-2' src={user.avatar ? user.avatar : defaultUserImage} alt='avatar' />
+        <img className='card-img rounded-circle' src={user.avatar} alt='avatar' />
       </Link>
       </div>
       <div className="col-sm-9">

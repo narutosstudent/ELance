@@ -123,6 +123,36 @@ export const login = (email, password) => async dispatch => {
     }
   };
 
+  // Send Email
+  export const sendEmail = ({subject, text}, id) => async dispatch => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+  
+    const body = JSON.stringify({ subject, text });
+  
+    try {
+      const res = await axios.post(`/api/users/email/${id}`, body, config);
+  
+      dispatch({
+        type: UserActionTypes.USER_EMAIL_SUCCESS
+      });
+      setAlert("Email Successfully sent", "success");
+    } catch (err) {
+      const errors = err.response.data.errors;
+  
+      if (errors) {
+        errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      }
+  
+      dispatch({
+        type: UserActionTypes.USER_EMAIL_FAIL
+      });
+    }
+  };
+
   // Logout / Clear Profile
 export const logout = () => dispatch => {
     dispatch({ type: ProfileActionTypes.CLEAR_PROFILE });

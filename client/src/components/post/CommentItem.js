@@ -22,9 +22,14 @@ return (
     <div class="card m-5 bg-warning">
   <div class="row no-gutters align-items-center">
     <div class="col-md-2">
-    <Link to={`/profile/${user._id}`}>
-            <img className='card-img rounded-circle pl-2' src={user.avatar ? user.avatar : defaultUserImage} alt='' />
-            </Link>
+    
+    {user.avatar && (
+      <Link to={`/profile/${user._id}`}>
+                  <img className='card-img rounded-circle pl-2' src={user.avatar} alt='' />
+                  </Link>
+    )}
+
+            
     </div>
     <div class="col-md-10">
       <div class="card-body">

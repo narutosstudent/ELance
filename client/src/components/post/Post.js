@@ -12,7 +12,7 @@ const Post = ({ getPost, getSinglePostComments, post: { post, loading }, comment
   useEffect(() => {
     getPost(match.params.id);
     getSinglePostComments(match.params.id)
-  }, [comment.comments, getPost, getSinglePostComments]);
+  }, []);
 
   return loading || comment.loading || post === null ? (
     <Spinner />

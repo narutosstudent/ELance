@@ -29,6 +29,11 @@ const userReducer = (state = initialState, action) => {
             isAuthenticated: true,
             loading: false
           };
+          case UserActionTypes.USER_EMAIL_SUCCESS:
+            case UserActionTypes.USER_EMAIL_FAIL:
+            return {
+              ...state
+            };
         case UserActionTypes.REGISTER_FAIL:
         case UserActionTypes.AUTH_ERROR:
         case UserActionTypes.LOGIN_FAIL:

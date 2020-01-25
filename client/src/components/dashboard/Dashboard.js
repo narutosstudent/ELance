@@ -27,6 +27,7 @@ const Dashboard = ({
 
     const [file, setFile] = useState('');
     const [imageFile, setImageFile] = useState(false);
+    const [showImage, setShowImage] = useState(false);
 
     const onChange = e => {
         setFile(e.target.files[0]);
@@ -36,6 +37,7 @@ const Dashboard = ({
       const onSubmit = e => {
           e.preventDefault();
           updateUserImage(file);
+          setShowImage(true)
       }
 
     return loading && profile === null
@@ -49,8 +51,10 @@ const Dashboard = ({
                             <i className="fas fa-user"/>
                             Welcome {user && user.name}
                         </p>
-                        <div className="col sm-5">
-                                                <img src={user.avatar ? user.avatar : defaultUserImage} alt="avatar" className="border border-success rounded-circle m-2" />
+                        <div className="col sm-3">
+                        {user.avatar && (
+                            <img src={user.avatar} className="rounded-circle border border-primary" alt="avatar" />
+                        )}
                         </div>
                         <form onSubmit={onSubmit}>
                         <div class="input-group mb-3">

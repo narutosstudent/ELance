@@ -17,7 +17,7 @@ const fileStorage = multer.diskStorage({
     cb(null, 'images');
   },
   filename: (req, file, cb) => {
-    cb(null, uuidv4() + "_" + file.originalname);
+    cb(null, uuidv4() + "_" + file.originalname.replace(/\s/g, ''));
   }
 });
 
@@ -41,6 +41,10 @@ app.use(express.json({ extended: false }));
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
 );
+
+// Serving static for images folder
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
