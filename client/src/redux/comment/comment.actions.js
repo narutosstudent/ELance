@@ -60,7 +60,8 @@ export const getSinglePostComments = id => async dispatch => {
         dispatch({
           type: CommentActionTypes.UPDATE_COMMENT,
           payload: {text, id}
-        })
+        });
+        setAlert("Comment Updated", "success");
       } catch (err) {
         const errors = err.response.data.errors;
         if (errors) {
