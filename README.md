@@ -49,5 +49,4 @@ This project is licensed under the MIT License
 - Using Multer for image upload
 - Deploying on Heroku
 - Working with express
-- Splitting the code into Routes and Controllers, aswell as mounting them in server.js
 
